@@ -12,7 +12,7 @@ import java.nio.file.StandardOpenOption;
 public class FMLogger {
     public static String filePath = "src/main/resources/messages.log";
     
-    public static void log(String message) {
+    public synchronized static void log(String message) {
         if (Files.notExists(Paths.get(filePath))) {
             try {
                 Files.createFile(Paths.get(filePath));

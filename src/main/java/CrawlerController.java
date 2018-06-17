@@ -1,4 +1,3 @@
-import com.mongodb.MongoClient;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
@@ -16,6 +15,9 @@ class CrawlerController {
         config.setCrawlStorageFolder(crawlStorageFolder);
         config.setIncludeHttpsPages(true);
         config.setIncludeBinaryContentInCrawling(false);
+        config.setResumableCrawling(false);
+        // config.setMaxDepthOfCrawling(20);
+        // config.setMaxPagesToFetch(100);
         
         boolean completeStartOver = true;
         if (completeStartOver) {
@@ -33,11 +35,9 @@ class CrawlerController {
                 controller.addSeed(url);
             }
             
-            MongoClient mongoClient = new MongoClient("mongodb://localhost:27017", 27017);
-            
-            // Ignore object parameter for now.
-            CrawlerFactory crawlerFactory = new CrawlerFactory(mongoClient);
-            controller.start(crawlerFactory, numberOfCrawlers);
+            // Object parameter is used for demonstration for future reference.
+            CrawlerFactory crawlerFactory = new CrawlerFactory(null);
+            controller.startNonBlocking(crawlerFactory, numberOfCrawlers);
         }
     }
 }
